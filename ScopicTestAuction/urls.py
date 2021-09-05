@@ -19,9 +19,10 @@ from Auction import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path("", views.homepage, name="homepage"),
     path("register/", views.register_request, name="register"),
     path("login/", views.login_request, name="login"),
     path("logout/", views.logout_request, name= "logout"),
     path("home/", views.item_list, name="home"),
+    path('item_detial/<int:id>/', views.item_detail, name='item_detail'),
+    path('bid_for_item', views.bid_for_item, name='bid_for_item'),
 ]

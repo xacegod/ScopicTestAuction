@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, Category, Bid, UserBiddingSetting, UserBalance
+from .models import Item, Category, Bid, UserBiddingSetting
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
@@ -11,10 +11,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Bid)
 class BidAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(UserBalance)
-class UserBalanceAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(UserBiddingSetting)

@@ -32,25 +32,19 @@ class Item(models.Model):
 
 
 class Bid(models.Model):
-    bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='%(class)s_bidder')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='%(class)s_bidder')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, blank=False)
     current_bid = models.IntegerField(default=0)
 
     def __str__(self):
-        return "Name: %s - %s - %s" % (self.item.name, self.bidder.username, self.current_bid)
-
-
-class UserBalance(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, unique=True)
-    amount = models.DecimalField(max_digits=11, decimal_places=2, default=0.0)
-
-    def __str__(self):
-        return "Username: %s - %s" % (self.user.username, self.amount)
+        return "Name: %s - %s - %s" % (self.item.name, self.user.username, self.current_bid)
 
 
 class UserBiddingSetting(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, unique=True)
-    auto_bid = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, blank=False)
+    auto_bid = models.BooleanField(default=True)
+    amount = models.DecimalField(max_digits=11, decimal_places=2, default=0.0)
 
     def __str__(self):
-        return "Username: %s - %s" % (self.user.username, self.auto_bid)
+        return "Username: %s - %s - %s" % (self.user.username, self.item.name, self.auto_bid)
