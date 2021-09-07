@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 import json
 
+
 def register_request(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -22,7 +23,7 @@ def register_request(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
         form = NewUserForm()
-    return render (request=request, template_name="register.html", context={"register_form":form})
+    return render(request=request, template_name="register.html", context={"register_form": form})
 
 
 def login_request(request):
@@ -74,6 +75,7 @@ def item_detail(request, id):
         return redirect('home')
     return render(request, 'item_detail.html', {'item': item})
 
+
 @login_required(login_url='/login/')
 def bid_for_item(request):
     received_json_data = json.loads(request.body)
@@ -82,16 +84,16 @@ def bid_for_item(request):
     item_id = received_json_data.get('item')
 
     if not username or not item_id:
-        return JsonResponse({'Error':'Invalid user or item'})
+        return JsonResponse({'Error': 'Invalid user or item'})
 
-    user = User.objects.filter(username = username).first()
-    item = Item.objects.filter(id= item_id).first()
+    user = User.objects.filter(username=username).first()
+    item = Item.objects.filter(id=item_id).first()
     if not user or not item:
-        return JsonResponse({'Error':'Bad user or item'})
-        return redirect('home')
+        return JsonResponse({'Error': 'Bad user or item'})
 
     bid = Bid.objects.create(item=item, user=user, current_bid=item.current_bid + 1)
     bid.save()
+
     # Get setting from previous bidder if auto bid is activated
     previous = item.userbiddingsetting_set.filter(auto_bid=True, amount__gt=item.current_bid).order_by('-amount').first()
     if previous:
@@ -105,4 +107,4 @@ def bid_for_item(request):
         item.bidder = user
     item.save()
 
-    return JsonResponse({'current_bid':bid.current_bid, "user": user.username})
+    return JsonResponse({'current_bid': bid.current_bid, "user": user.username})
