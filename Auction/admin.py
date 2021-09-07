@@ -3,7 +3,7 @@ from .models import Item, Category, Bid, UserBiddingSetting
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    fields = ('seller_id', 'name', 'desc', 'category', 'minimum_price', 'start', 'end', 'item_sold')
+    fields = ('seller', 'name', 'desc', 'category', 'minimum_price', 'start', 'end', 'item_sold')
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
